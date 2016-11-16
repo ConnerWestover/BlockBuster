@@ -20,18 +20,55 @@ class GameScene: SKScene {
     var playableRect = CGRect.zero
     var totalSprites = 0
     
-    let levelLabel = SKLabelNode(fontNamed: "Futura")
+    let levelLabel = SKLabelNode(fontNamed: GameData.font.mainFont)
+    let winLabel = SKLabelNode(fontNamed: GameData.font.mainFont);
+    let loseLabel = SKLabelNode(fontNamed: GameData.font.mainFont);
+    let nextLevelLabel = SKLabelNode(fontNamed: GameData.font.mainFont);
+    let playAgainLabel = SKLabelNode(fontNamed: GameData.font.mainFont);
+    let mainMenuLabel = SKLabelNode(fontNamed: GameData.font.mainFont);
+    var bg = SKSpriteNode(color: SKColor.init(red: 0, green: 1, blue: 0, alpha: 0.5), size:CGSize.zero)
     
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
     var spritesMoving = false
     
     var tapCount = 0
-    
     var redLeft = 0
     
-    var gameOver = false
-    var gameWon = true
+    var gameOver = false{
+        didSet{
+            if gameOver {
+                bg.size = playableRect.size
+                bg.color = SKColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
+                bg.position = CGPoint(x:playableRect.midX, y:playableRect.midY)
+                if(bg.parent == nil){
+                    addChild(bg)
+                    
+                }
+                if(loseLabel.parent == nil){
+                    addChild(loseLabel)
+                }
+                addButtons()
+            }
+        }
+    }
+    var gameWon = false {
+        didSet{
+            if gameWon {
+                bg.size = playableRect.size
+                bg.color = SKColor.init(red: 0, green: 1, blue: 0, alpha: 0.5)
+                bg.position = CGPoint(x:playableRect.midX, y:playableRect.midY)
+                if(bg.parent == nil){
+                    addChild(bg)
+                    
+                }
+                if(winLabel.parent == nil){
+                    addChild(winLabel)
+                }
+                addButtons()
+            }
+        }
+    }
     
     var BustableShapes = [SKNode]()
     
@@ -54,7 +91,80 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         playableRect = getPlayableRectPhonePortrait(size: size)
+        setupUI()
         setupSpritesAndPhysics()
+    }
+    
+    func addButtons(){
+        if(playAgainLabel.parent == nil){
+            let grayBox = SKSpriteNode.init(color: SKColor.lightGray, size: CGSize(width: 300, height: 60))
+            grayBox.position = playAgainLabel.position
+            addChild(grayBox)
+            addChild(playAgainLabel)
+        }
+        if(nextLevelLabel.parent == nil){
+            let grayBox = SKSpriteNode.init(color: SKColor.lightGray, size: CGSize(width: 300, height: 60))
+            grayBox.position = nextLevelLabel.position
+            addChild(grayBox)
+            addChild(nextLevelLabel)
+        }
+        if(mainMenuLabel.parent == nil){
+            let grayBox = SKSpriteNode.init(color: SKColor.lightGray, size: CGSize(width: 300, height: 60))
+            grayBox.position = mainMenuLabel.position
+            addChild(grayBox)
+            addChild(mainMenuLabel)
+        }
+    }
+    
+    func setupUI(){
+        levelLabel.position = CGPoint(x: playableRect.minX + 20,y: playableRect.maxY - 20)
+        levelLabel.verticalAlignmentMode = .top
+        levelLabel.horizontalAlignmentMode = .left
+        levelLabel.text = "Level " + levelNum
+        levelLabel.fontName = GameData.font.mainFont
+        levelLabel.fontSize = GameData.hud.fontSize
+        levelLabel.fontColor = GameData.hud.fontColorWhite
+        addChild(levelLabel)
+        
+        winLabel.position = CGPoint(x: playableRect.midX,y: playableRect.maxY * 0.7)
+        winLabel.verticalAlignmentMode = .center
+        winLabel.horizontalAlignmentMode = .center
+        winLabel.text = "You Win!"
+        winLabel.fontName = GameData.font.mainFont
+        winLabel.fontSize = GameData.hud.fontSize
+        winLabel.fontColor = GameData.hud.fontColorWhite
+        
+        loseLabel.position = CGPoint(x: playableRect.midX,y: playableRect.maxY * 0.7)
+        loseLabel.verticalAlignmentMode = .center
+        loseLabel.horizontalAlignmentMode = .center
+        loseLabel.text = "You Lost!"
+        loseLabel.fontName = GameData.font.mainFont
+        loseLabel.fontSize = GameData.hud.fontSize
+        loseLabel.fontColor = SKColor.black
+        
+        playAgainLabel.position = CGPoint(x: playableRect.midX,y: playableRect.maxY * 0.4)
+        playAgainLabel.verticalAlignmentMode = .center
+        playAgainLabel.horizontalAlignmentMode = .center
+        playAgainLabel.text = "Play Again"
+        playAgainLabel.fontSize = GameData.hud.fontSize * 0.75
+        playAgainLabel.fontName = GameData.font.mainFont
+        playAgainLabel.fontColor = SKColor.white
+        
+        nextLevelLabel.position = CGPoint(x: playableRect.midX,y: playableRect.maxY * 0.55)
+        nextLevelLabel.verticalAlignmentMode = .center
+        nextLevelLabel.horizontalAlignmentMode = .center
+        nextLevelLabel.text = "Next Level"
+        nextLevelLabel.fontSize = GameData.hud.fontSize * 0.75
+        nextLevelLabel.fontName = GameData.font.mainFont
+        nextLevelLabel.fontColor = SKColor.white
+        
+        mainMenuLabel.position = CGPoint(x: playableRect.midX,y: playableRect.maxY * 0.25)
+        mainMenuLabel.verticalAlignmentMode = .center
+        mainMenuLabel.horizontalAlignmentMode = .center
+        mainMenuLabel.text = "Main Menu"
+        mainMenuLabel.fontSize = GameData.hud.fontSize * 0.75
+        mainMenuLabel.fontName = GameData.font.mainFont
+        mainMenuLabel.fontColor = SKColor.white
     }
     
     func setupSpritesAndPhysics(){
@@ -94,9 +204,23 @@ class GameScene: SKScene {
             for shape in BustableShapes{
                 if shape.contains(location){
                     shape.removeFromParent()
+                    tapCount += 1
                 }
             }
+            
+            if nextLevelLabel.contains(location) {
+                sceneManager.loadGameScene(levelNum: (Int(levelNum)! + 1).description)
+            }
+            
+            if playAgainLabel.contains(location) {
+                sceneManager.loadGameScene(levelNum: levelNum)
+            }
+            
+            if mainMenuLabel.contains(location) {
+                sceneManager.loadLevelSelectionScene()
+            }
         }
+        
     }
     
     
