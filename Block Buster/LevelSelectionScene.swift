@@ -20,25 +20,39 @@ class LevelSelectionScene: SKScene {
         var lArray = [SKLabelNode]()
         var bArray = [SKSpriteNode]()
         repeat {
-            let button1 = SKSpriteNode(color: SKColor.red, size: CGSize(width: 60, height: 60))
+            let button1 = SKSpriteNode(color: SKColor.red, size: CGSize(width: 100, height: 100))
             let button = SKLabelNode()
             
             button.fontColor = UIColor.white
-            button.fontSize = 50
+            button.fontSize = 60
+            button.fontName = GameData.font.mainFont
             
             if index < 10{
-                var posX = size.width - 200
-                posX = posX/10
+                var posX = size.width - 300
+                posX = posX/9
                 posX = posX*CGFloat(index)
-                posX = posX + 100
-                button.position = CGPoint(x: posX, y: size.height/2 + 50)
-            } else {
-                var posX = size.width - 200
-                posX = posX/10
+                posX = posX + 150
+                button.position = CGPoint(x: posX, y: size.height/2 + 200)
+            } else if index < 20 {
+                var posX = size.width - 300
+                posX = posX/9
                 posX = posX*CGFloat(index-10)
-                posX = posX + 100
-                button.position = CGPoint(x: posX, y: size.height/2 - 100)
+                posX = posX + 150
+                button.position = CGPoint(x: posX, y: size.height/2)
+            } else if index < 30 {
+                var posX = size.width - 300
+                posX = posX/9
+                posX = posX*CGFloat(index-20)
+                posX = posX + 150
+                button.position = CGPoint(x: posX, y: size.height/2 - 200)
+            } else if index < 40 {
+                var posX = size.width - 300
+                posX = posX/9
+                posX = posX*CGFloat(index-30)
+                posX = posX + 150
+                button.position = CGPoint(x: posX, y: size.height/2 - 400)
             }
+            
             button1.position = button.position
             button1.position.y = button1.position.y + 20
             
@@ -46,9 +60,23 @@ class LevelSelectionScene: SKScene {
             button.text = index.description
             button1.name = index.description
             
+            if pullAvailabilityForLevel(num: index){
+                if pullCompletedForLevel(num: index){
+                    if pullParClicksForLevel(num: index) >= pullFewestClicksForLevel(num: index){
+                        button1.color = SKColor.yellow
+                    } else {
+                        button1.color = SKColor.green
+                    }
+                } else {
+                    button1.color = SKColor.red
+                }
+            } else {
+                button1.color = SKColor.lightGray
+            }
+            
             lArray.append(button)
             bArray.append(button1)
-        } while (index < 20)
+        } while (index < 40)
         
         buttons = bArray
         labels = lArray
@@ -67,8 +95,8 @@ class LevelSelectionScene: SKScene {
         
         let label = SKLabelNode(fontNamed: GameData.font.mainFont)
         label.text = "Block Buster"
-        label.fontSize = 80
-        label.position = CGPoint(x:size.width/2, y:size.height/2 + 200)
+        label.fontSize = 100
+        label.position = CGPoint(x:size.width/2, y:size.height * 0.85)
         label.zPosition = 1
         addChild(label)
         
@@ -80,6 +108,19 @@ class LevelSelectionScene: SKScene {
         for b in buttons
         {
             addChild(b)
+            if pullAvailabilityForLevel(num: Int(b.name!)!){
+                if pullCompletedForLevel(num: Int(b.name!)!){
+                    if pullParClicksForLevel(num: Int(b.name!)!) >= pullFewestClicksForLevel(num: Int(b.name!)!){
+                        b.color = SKColor.yellow
+                    } else {
+                        b.color = SKColor.green
+                    }
+                } else {
+                    b.color = SKColor.red
+                }
+            } else {
+                b.color = SKColor.lightGray
+            }
         }
 
     }

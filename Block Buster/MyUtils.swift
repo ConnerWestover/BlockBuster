@@ -113,3 +113,39 @@ func getScreenPhysicalAspectRatioPortrait()->CGFloat{
     return UIScreen.main.nativeBounds.width / UIScreen.main.nativeBounds.height
 }
 
+public func pullAvailabilityForLevel(num:Int) -> Bool{
+    return UserDefaults.standard.bool(forKey: "\(num)unlocked")
+}
+
+public func pullCompletedForLevel(num:Int) -> Bool{
+    return UserDefaults.standard.bool(forKey: "\(num)completed")
+}
+
+public func pullParClicksForLevel(num:Int) -> Int{
+    return UserDefaults.standard.integer(forKey: "\(num)parClicks")
+}
+
+public func pullFewestClicksForLevel(num:Int) -> Int{
+    return UserDefaults.standard.integer(forKey: "\(num)fewestClicks")
+}
+
+public func updateAvailabilityForLevel(num:Int, avail:Bool){
+    UserDefaults.standard.set(avail, forKey: "\(num)unlocked")
+    UserDefaults.standard.synchronize()
+}
+
+public func updateCompletedForLevel(num:Int, comp:Bool){
+    UserDefaults.standard.set(comp, forKey: "\(num)completed")
+    UserDefaults.standard.synchronize()
+}
+
+public func updateClicksForLevel(num:Int, clicks:Int){
+    UserDefaults.standard.set(clicks, forKey: "\(num)fewestClicks")
+    UserDefaults.standard.synchronize()
+}
+
+public func updateParClicksForLevel(num:Int, clicks:Int){
+    UserDefaults.standard.set(clicks, forKey: "\(num)parClicks")
+    UserDefaults.standard.synchronize()
+}
+

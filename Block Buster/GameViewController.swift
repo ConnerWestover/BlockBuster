@@ -28,6 +28,8 @@ class GameViewController: UIViewController, SceneManager {
             skView = self.view as! SKView
             loadHomeScene()
             
+            setupLevelData()
+            
             //debug stuff
             skView.ignoresSiblingOrder = true
             skView.showsFPS = showDebugData
@@ -68,6 +70,51 @@ class GameViewController: UIViewController, SceneManager {
     }
     func loadCreditsScene(){
         
+    }
+    
+    func setupLevelData(){
+        updateAvailabilityForLevel(num: 1, avail: true)
+        //Par Clicks for levels
+        updateParClicksForLevel(num: 1, clicks: 3)
+        updateParClicksForLevel(num: 2, clicks: 0)
+        updateParClicksForLevel(num: 3, clicks: 3)
+        updateParClicksForLevel(num: 4, clicks: 3)
+        updateParClicksForLevel(num: 5, clicks: 3)
+        updateParClicksForLevel(num: 6, clicks: 3)
+        updateParClicksForLevel(num: 7, clicks: 3)
+        updateParClicksForLevel(num: 8, clicks: 3)
+        updateParClicksForLevel(num: 9, clicks: 3)
+        updateParClicksForLevel(num: 10, clicks: 3)
+        updateParClicksForLevel(num: 11, clicks: 3)
+        updateParClicksForLevel(num: 12, clicks: 3)
+        updateParClicksForLevel(num: 13, clicks: 3)
+        updateParClicksForLevel(num: 14, clicks: 3)
+        updateParClicksForLevel(num: 15, clicks: 3)
+        updateParClicksForLevel(num: 16, clicks: 3)
+        updateParClicksForLevel(num: 17, clicks: 3)
+        updateParClicksForLevel(num: 18, clicks: 3)
+        updateParClicksForLevel(num: 19, clicks: 3)
+        updateParClicksForLevel(num: 20, clicks: 3)
+        updateParClicksForLevel(num: 21, clicks: 3)
+        updateParClicksForLevel(num: 22, clicks: 3)
+        updateParClicksForLevel(num: 23, clicks: 3)
+        updateParClicksForLevel(num: 24, clicks: 3)
+        updateParClicksForLevel(num: 25, clicks: 3)
+        updateParClicksForLevel(num: 26, clicks: 3)
+        updateParClicksForLevel(num: 27, clicks: 3)
+        updateParClicksForLevel(num: 28, clicks: 3)
+        updateParClicksForLevel(num: 29, clicks: 3)
+        updateParClicksForLevel(num: 30, clicks: 3)
+        updateParClicksForLevel(num: 31, clicks: 3)
+        updateParClicksForLevel(num: 32, clicks: 3)
+        updateParClicksForLevel(num: 33, clicks: 3)
+        updateParClicksForLevel(num: 34, clicks: 3)
+        updateParClicksForLevel(num: 35, clicks: 3)
+        updateParClicksForLevel(num: 36, clicks: 3)
+        updateParClicksForLevel(num: 37, clicks: 3)
+        updateParClicksForLevel(num: 38, clicks: 3)
+        updateParClicksForLevel(num: 39, clicks: 3)
+        updateParClicksForLevel(num: 40, clicks: 3)
     }
 
     override var shouldAutorotate: Bool {

@@ -690,6 +690,7 @@
 				13F669CC1DDC40CF008B6CAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		13F669CD1DDC40CF008B6CAD /* Build configuration list for PBXNativeTarget "Block BusterTests" */ = {
 			isa = XCConfigurationList;
@@ -698,6 +699,7 @@
 				13F669CF1DDC40CF008B6CAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		13F669D01DDC40CF008B6CAD /* Build configuration list for PBXNativeTarget "Block BusterUITests" */ = {
 			isa = XCConfigurationList;
@@ -706,6 +708,7 @@
 				13F669D21DDC40CF008B6CAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

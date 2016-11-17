@@ -66,6 +66,9 @@ class GameScene: SKScene {
                     addChild(winLabel)
                 }
                 addButtons()
+                updateCompletedForLevel(num: Int(levelNum)!, comp: true)
+                updateClicksForLevel(num: Int(levelNum)!, clicks: tapCount)
+                updateAvailabilityForLevel(num: (Int(levelNum)!) + 1, avail: true)
             }
         }
     }
