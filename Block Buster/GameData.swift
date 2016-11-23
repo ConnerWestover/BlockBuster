@@ -11,9 +11,10 @@ import SpriteKit
 struct GameData{
     init(){
         fatalError("The GameData struct is a singleton")
+        
     }
     struct font{
-        static let mainFont = "GillSans-Bold"
+        static let mainFont = "Molot"
     }
     
     struct hud{

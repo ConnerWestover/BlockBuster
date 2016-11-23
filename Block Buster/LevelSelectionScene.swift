@@ -11,8 +11,8 @@ import SpriteKit
 class LevelSelectionScene: SKScene {
     //MARK: - ivars -
     let sceneManager:SceneManager
-    let buttons:[SKSpriteNode]
-    let labels:[SKLabelNode]
+    var buttons:[SKSpriteNode]
+    var labels:[SKLabelNode]
     //MARK: - Initialization -
     init(size: CGSize, scaleMode: SKSceneScaleMode, sceneManager: SceneManager){
         self.sceneManager = sceneManager
@@ -32,23 +32,18 @@ class LevelSelectionScene: SKScene {
                 posX = posX/9
                 posX = posX*CGFloat(index)
                 posX = posX + 150
-                button.position = CGPoint(x: posX, y: size.height/2 + 200)
+                button.position = CGPoint(x: posX, y: size.height/2)
             } else if index < 20 {
                 var posX = size.width - 300
                 posX = posX/9
                 posX = posX*CGFloat(index-10)
                 posX = posX + 150
-                button.position = CGPoint(x: posX, y: size.height/2)
-            } else if index < 30 {
+                button.position = CGPoint(x: posX, y: size.height/2 - 200)
+            }
+            else if index < 30 {
                 var posX = size.width - 300
                 posX = posX/9
                 posX = posX*CGFloat(index-20)
-                posX = posX + 150
-                button.position = CGPoint(x: posX, y: size.height/2 - 200)
-            } else if index < 40 {
-                var posX = size.width - 300
-                posX = posX/9
-                posX = posX*CGFloat(index-30)
                 posX = posX + 150
                 button.position = CGPoint(x: posX, y: size.height/2 - 400)
             }
@@ -76,7 +71,7 @@ class LevelSelectionScene: SKScene {
             
             lArray.append(button)
             bArray.append(button1)
-        } while (index < 40)
+        } while (index < 30)
         
         buttons = bArray
         labels = lArray
@@ -91,6 +86,12 @@ class LevelSelectionScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        let background = SKSpriteNode(imageNamed: "background")
+        background.zPosition = -5
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        background.size = size
+        addChild(background)
+        
         backgroundColor = GameData.scene.backgroundColor
         
         let label = SKLabelNode(fontNamed: GameData.font.mainFont)
@@ -99,6 +100,56 @@ class LevelSelectionScene: SKScene {
         label.position = CGPoint(x:size.width/2, y:size.height * 0.85)
         label.zPosition = 1
         addChild(label)
+        
+        let color1 = SKSpriteNode(color: SKColor.lightGray, size: CGSize(width: 100, height: 100))
+        let color2 = SKSpriteNode(color: SKColor.red, size: CGSize(width: 100, height: 100))
+        let color3 = SKSpriteNode(color: SKColor.green, size: CGSize(width: 100, height: 100))
+        let color4 = SKSpriteNode(color: SKColor.yellow, size: CGSize(width: 100, height: 100))
+        
+        color1.position = CGPoint(x: size.width/6, y: size.height/2 + 200)
+        color2.position = CGPoint(x: size.width*2/6 + 30, y: size.height/2 + 200)
+        color3.position = CGPoint(x: size.width*3/6 + 120, y: size.height/2 + 200)
+        color4.position = CGPoint(x: size.width*4/6 + 180, y: size.height/2 + 200)
+        
+        addChild(color1)
+        addChild(color2)
+        addChild(color3)
+        addChild(color4)
+        
+        let colorLabel1 = SKLabelNode(fontNamed: GameData.font.mainFont)
+        let colorLabel2 = SKLabelNode(fontNamed: GameData.font.mainFont)
+        let colorLabel3 = SKLabelNode(fontNamed: GameData.font.mainFont)
+        let colorLabel4 = SKLabelNode(fontNamed: GameData.font.mainFont)
+        
+        colorLabel1.text = "= Locked"
+        colorLabel2.text = "= Unlocked"
+        colorLabel3.text = "= Passed"
+        colorLabel4.text = "= Perfected"
+        
+        colorLabel1.horizontalAlignmentMode = .left
+        colorLabel2.horizontalAlignmentMode = .left
+        colorLabel3.horizontalAlignmentMode = .left
+        colorLabel4.horizontalAlignmentMode = .left
+        
+        colorLabel1.verticalAlignmentMode = .center
+        colorLabel2.verticalAlignmentMode = .center
+        colorLabel3.verticalAlignmentMode = .center
+        colorLabel4.verticalAlignmentMode = .center
+        
+        colorLabel1.fontSize = 40
+        colorLabel2.fontSize = 40
+        colorLabel3.fontSize = 40
+        colorLabel4.fontSize = 40
+        
+        colorLabel1.position = CGPoint(x: size.width/5, y: size.height/2 + 200)
+        colorLabel2.position = CGPoint(x: size.width/3 + 100, y: size.height/2 + 200)
+        colorLabel3.position = CGPoint(x: size.width/2 + 200, y: size.height/2 + 200)
+        colorLabel4.position = CGPoint(x: size.width * 4/5, y: size.height/2 + 200)
+        
+        addChild(colorLabel1)
+        addChild(colorLabel2)
+        addChild(colorLabel3)
+        addChild(colorLabel4)
         
         for l in labels
         {
@@ -131,7 +182,9 @@ class LevelSelectionScene: SKScene {
             
             for b in buttons{
                 if b.contains(location){
-                    sceneManager.loadGameScene(levelNum: b.name!)
+                    if pullAvailabilityForLevel(num: Int(b.name!)!){
+                        sceneManager.loadGameScene(levelNum: b.name!)
+                    }
                 }
             }
         }

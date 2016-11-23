@@ -25,6 +25,12 @@ class HomeScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        let background = SKSpriteNode(imageNamed: "background")
+        background.zPosition = -5
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        background.size = size
+        addChild(background)
+        
         backgroundColor = GameData.scene.backgroundColor
         let label = SKLabelNode(fontNamed: GameData.font.mainFont)
         let label2 = SKLabelNode(fontNamed: GameData.font.mainFont)
